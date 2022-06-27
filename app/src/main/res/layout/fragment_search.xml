@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/searchNewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search newest question"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/filterTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Or you can set a date interval:"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchNewButton" />
+
+    <Button
+        android:id="@+id/fromDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="from date"
+        app:layout_constraintEnd_toEndOf="@+id/filterTV"
+        app:layout_constraintStart_toStartOf="@+id/filterTV"
+        app:layout_constraintTop_toBottomOf="@+id/filterTV" />
+
+    <Button
+        android:id="@+id/toDateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="to date"
+        app:layout_constraintEnd_toEndOf="@+id/filterTV"
+        app:layout_constraintStart_toStartOf="@+id/filterTV"
+        app:layout_constraintTop_toBottomOf="@+id/fromDateButton" />
+
+    <Button
+        android:id="@+id/searchFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Search with date filter"
+        app:layout_constraintEnd_toEndOf="@+id/filterTV"
+        app:layout_constraintStart_toStartOf="@+id/filterTV"
+        app:layout_constraintTop_toBottomOf="@+id/toDateButton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
