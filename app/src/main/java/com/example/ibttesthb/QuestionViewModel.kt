@@ -1,6 +1,10 @@
 package com.example.ibttesthb
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class QuestionViewModel(private val questionRepository: QuestionRepository) : ViewModel() {
 
@@ -8,8 +12,25 @@ class QuestionViewModel(private val questionRepository: QuestionRepository) : Vi
 
     fun getSelectedQuestion() = questionRepository.getSelectedQuestion()
 
-    fun requestQuestions() = questionRepository.requestQuestion()
-    fun requestQuestions(from : Int, to : Int) = questionRepository.requestQuestionInterval(from, to)
+    fun requestQuestions() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                questionRepository.requestQuestion()
+            } catch (e: Exception) {
+                Log.d("apiError", e.message.toString())
+            }
+        }
+    }
+
+    fun requestQuestions(from : Int, to : Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                questionRepository.requestQuestionInterval(from, to)
+            } catch (e: Exception) {
+                Log.d("apiError", e.message.toString())
+            }
+        }
+    }
 
     fun getQuestions() = questionRepository.getQuestions()
 }

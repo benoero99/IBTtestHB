@@ -25,7 +25,7 @@ class QuestionDao {
     // Update whole list when we request questions from stack exchange api
     fun updateQuestions(searchedQuestions : MutableList<QuestionModel>) {
         questionList = searchedQuestions
-        questions.value = questionList
+        questions.postValue(questionList)
     }
 
     // Get already stored questions from the "database"

@@ -5,10 +5,7 @@ import com.example.ibttesthb.fakedb.QuestionDao
 import com.example.ibttesthb.model.ListWrapper
 import com.example.ibttesthb.model.QuestionModel
 import com.example.ibttesthb.network.StackExchangeAPI
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class QuestionRepository private constructor(private val questionDao: QuestionDao) {
@@ -19,14 +16,14 @@ class QuestionRepository private constructor(private val questionDao: QuestionDa
 
     fun getSelectedQuestion() = questionDao.getSelectedQuestion()
 
-    fun requestQuestion() {
-        val questionCall = createApi().getQuestions()
-        call(questionCall)
+    suspend fun requestQuestion() {
+        val response = createApi().getQuestions()
+        questionDao.updateQuestions(response.items)
     }
 
-    fun requestQuestionInterval(from : Int, to : Int) {
-        val questionCall = createApi().getQuestionsInterval(from, to)
-        call(questionCall)
+    suspend fun requestQuestionInterval(from : Int, to : Int) {
+        val response = createApi().getQuestionsInterval(from, to)
+        questionDao.updateQuestions(response.items)
     }
 
     fun createApi() : StackExchangeAPI {
@@ -35,19 +32,6 @@ class QuestionRepository private constructor(private val questionDao: QuestionDa
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         return retrofit.create(StackExchangeAPI::class.java)
-    }
-
-    fun call(questionCall : Call<ListWrapper<QuestionModel>>) {
-        questionCall.enqueue(object: Callback<ListWrapper<QuestionModel>> {
-
-            override fun onResponse(call: Call<ListWrapper<QuestionModel>>, response: Response<ListWrapper<QuestionModel>>) {
-                questionDao.updateQuestions(response.body()!!.items)
-            }
-
-            override fun onFailure(call: Call<ListWrapper<QuestionModel>>, t: Throwable) {
-                Log.d("apiError", t.message.toString())
-            }
-        })
     }
 
     fun getQuestions() = questionDao.getQuestions()
