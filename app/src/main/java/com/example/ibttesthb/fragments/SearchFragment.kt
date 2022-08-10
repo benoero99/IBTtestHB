@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.ibttesthb.QuestionViewModel
 import com.example.ibttesthb.R
+import com.example.ibttesthb.databinding.FragmentListBinding
+import com.example.ibttesthb.databinding.FragmentSearchBinding
 import com.example.ibttesthb.di.Injector
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,10 +23,8 @@ import java.util.*
 
 class SearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
-    private lateinit var searchNewButton: Button
-    private lateinit var fromDateButton: Button
-    private lateinit var toDateButton: Button
-    private lateinit var searchFilterButton: Button
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
     private var fromEpoch: Long = Long.MIN_VALUE
     private var toEpoch: Long = Long.MAX_VALUE
@@ -34,38 +34,32 @@ class SearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var isFrom = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchNewButton = view.findViewById(R.id.searchNewButton)
-        fromDateButton = view.findViewById(R.id.fromDateButton)
-        toDateButton = view.findViewById(R.id.toDateButton)
-        searchFilterButton = view.findViewById(R.id.searchFilterButton)
         initializeUI()
     }
 
     private fun initializeUI() {
         val factory = Injector.provideQuestionFactory()
-        val viewModel = ViewModelProviders.of(this, factory)
-            .get(QuestionViewModel::class.java)
+        val viewModel = ViewModelProviders.of(this, factory)[QuestionViewModel::class.java]
 
-
-
-        searchNewButton.setOnClickListener {
+        binding.searchNewButton.setOnClickListener {
             viewModel.requestQuestions()
             openListFragment()
         }
-        fromDateButton.setOnClickListener {
+        binding.fromDateButton.setOnClickListener {
             openDatePickerDialog()
             isFrom = true
         }
-        toDateButton.setOnClickListener {
+        binding.toDateButton.setOnClickListener {
             openDatePickerDialog()
             isFrom = false
         }
-        searchFilterButton.setOnClickListener {
+        binding.searchFilterButton.setOnClickListener {
             Log.d("epoches", "$fromEpoch,$toEpoch")
             viewModel.requestQuestions(fromEpoch.toInt(), toEpoch.toInt())
             openListFragment()
@@ -106,10 +100,15 @@ class SearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         val formattedDate = SimpleDateFormat("dd/MM/yyyy").format(date)
         if(isFrom) {
             fromEpoch = date.time / 1000
-            fromDateButton.text = "From: $formattedDate"
+            binding.fromDateButton.text = "From: $formattedDate"
         } else {
             toEpoch = date.time / 1000
-            toDateButton.text = "To: $formattedDate"
+            binding.toDateButton.text = "To: $formattedDate"
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

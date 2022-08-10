@@ -12,23 +12,20 @@ class QuestionViewModel(private val questionRepository: QuestionRepository) : Vi
 
     fun getSelectedQuestion() = questionRepository.getSelectedQuestion()
 
-    fun requestQuestions() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                questionRepository.requestQuestion()
-            } catch (e: Exception) {
-                Log.d("apiError", e.message.toString())
-            }
+    fun requestQuestions() = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            questionRepository.requestQuestion()
+        } catch (e: Exception) {
+            Log.d("apiError", e.message.toString())
         }
     }
 
-    fun requestQuestions(from : Int, to : Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                questionRepository.requestQuestionInterval(from, to)
-            } catch (e: Exception) {
-                Log.d("apiError", e.message.toString())
-            }
+
+    fun requestQuestions(from : Int, to : Int)  = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            questionRepository.requestQuestionInterval(from, to)
+        } catch (e: Exception) {
+            Log.d("apiError", e.message.toString())
         }
     }
 
