@@ -9,23 +9,13 @@ class QuestionRepository private constructor(/*private val questionDao: Question
 
     private val url = "https://api.stackexchange.com/"
 
-    /*fun selectQuestion(position: Int) = questionDao.selectQuestion(position)
-    fun getSelectedQuestion() = questionDao.getSelectedQuestion()
-    fun getQuestions() = questionDao.getQuestions()*/
-
     suspend fun requestQuestion(): MutableList<QuestionModel> {
         val response = createApi().getQuestions()
-/*
-        questionDao.updateQuestions(response.items)
-*/
         return response.items
     }
 
     suspend fun requestQuestion(from : Int, to : Int): MutableList<QuestionModel> {
         val response = createApi().getQuestionsInterval(from, to)
-/*
-        questionDao.updateQuestions(response.items)
-*/
         return response.items
     }
 
@@ -41,9 +31,9 @@ class QuestionRepository private constructor(/*private val questionDao: Question
     companion object {
         @Volatile private var instance: QuestionRepository? = null
 
-        fun getInstance(/*questionDao: QuestionDao*/) =
+        fun getInstance() =
             instance ?: synchronized(this) {
-                instance ?: QuestionRepository(/*questionDao*/).also { instance = it }
+                instance ?: QuestionRepository().also { instance = it }
             }
     }
 }

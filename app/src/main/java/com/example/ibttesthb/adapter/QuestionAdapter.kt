@@ -24,7 +24,6 @@ class QuestionAdapter(private val listener: ElementClickListener) : RecyclerView
 
     override fun getItemCount() = data.size
 
-    // Manage textviews depending on the item's position
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val question = data[position]
         holder.bind(question)
