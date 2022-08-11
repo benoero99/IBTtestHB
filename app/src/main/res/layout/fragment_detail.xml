@@ -1,101 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="15dp">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/detailTitleTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:text="HOW TO CREATE AN ANDROID APPLICATION"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="vm"
+            type="com.example.ibttesthb.viewmodel.SharedViewModel"/>
+    </data>
 
-    <TextView
-        android:id="@+id/detailTagsTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tags: Tag1, Tag2"
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailTitleTV" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="15dp">
 
-    <TextView
-        android:id="@+id/detailAskerTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name: Peti"
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailTagsTV" />
+        <TextView
+            android:id="@+id/detailTitleTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:text="@{vm.selectedQuestion.title}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/detailReputationScoreTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reputation: A lot"
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailAskerTV" />
+        <TextView
+            android:id="@+id/detailTagsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Tags: ` + vm.selectedQuestion.tags}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailTitleTV" />
 
-    <TextView
-        android:id="@+id/detailAnsweredTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No answer yet"
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailReputationScoreTV" />
+        <TextView
+            android:id="@+id/detailAskerTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Name: ` + vm.selectedQuestion.askerName}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailTagsTV" />
 
-    <TextView
-        android:id="@+id/detailViewCountTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Views: 0 :("
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailAnsweredTV" />
+        <TextView
+            android:id="@+id/detailReputationScoreTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Reputation: ` + vm.selectedQuestion.reputation}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailAskerTV" />
 
-    <TextView
-        android:id="@+id/detailAnswerCountTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Answers: 0"
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailViewCountTV" />
+        <TextView
+            android:id="@+id/detailAnsweredTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.selectedQuestion.answered}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailReputationScoreTV" />
 
-    <TextView
-        android:id="@+id/detailScoreTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Score: 0"
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailAnswerCountTV" />
+        <TextView
+            android:id="@+id/detailViewCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Views: ` + vm.selectedQuestion.viewCount}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailAnsweredTV" />
 
-    <TextView
-        android:id="@+id/detailCreationDateTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date: Today"
-        android:paddingTop="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailScoreTV" />
+        <TextView
+            android:id="@+id/detailAnswerCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Answers: ` + vm.selectedQuestion.answerCount}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailViewCountTV" />
 
-    <TextView
-        android:id="@+id/detailLinkTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loooong link to stackoverflow"
-        android:paddingTop="2dp"
-        android:autoLink="web"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detailCreationDateTV" />
+        <TextView
+            android:id="@+id/detailScoreTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Score: ` + vm.selectedQuestion.score}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailAnswerCountTV" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/detailCreationDateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{`Creation date: ` + vm.selectedQuestion.creationDate}"
+            android:paddingTop="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailScoreTV" />
+
+        <TextView
+            android:id="@+id/detailLinkTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{vm.selectedQuestion.link}"
+            android:paddingTop="2dp"
+            android:autoLink="web"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/detailCreationDateTV" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

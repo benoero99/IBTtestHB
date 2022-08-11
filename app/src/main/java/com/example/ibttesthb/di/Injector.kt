@@ -1,13 +1,12 @@
 package com.example.ibttesthb.di
 
-import com.example.ibttesthb.fakedb.Database
-import com.example.ibttesthb.QuestionRepository
-import com.example.ibttesthb.QuestionsModelViewFactory
+import com.example.ibttesthb.service.repository.QuestionRepository
+import com.example.ibttesthb.viewmodel.SharedViewModelFactory
 
 // Dependency injection
 object Injector {
-    fun provideQuestionFactory(): QuestionsModelViewFactory {
-        val questionRepository = QuestionRepository.getInstance(Database.getInstance().questionDao)
-        return QuestionsModelViewFactory(questionRepository)
+    fun provideQuestionFactory(): SharedViewModelFactory {
+        val questionRepository = QuestionRepository.getInstance()
+        return SharedViewModelFactory(questionRepository)
     }
 }

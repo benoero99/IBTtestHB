@@ -2,7 +2,7 @@ package com.example.ibttesthb
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.ibttesthb.fragments.SearchFragment
+import com.example.ibttesthb.ui.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 

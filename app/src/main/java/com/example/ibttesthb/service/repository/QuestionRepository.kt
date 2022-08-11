@@ -1,32 +1,35 @@
-package com.example.ibttesthb
+package com.example.ibttesthb.service.repository
 
-import android.util.Log
-import com.example.ibttesthb.fakedb.QuestionDao
-import com.example.ibttesthb.model.ListWrapper
-import com.example.ibttesthb.model.QuestionModel
-import com.example.ibttesthb.network.StackExchangeAPI
+import com.example.ibttesthb.service.model.QuestionModel
+import com.example.ibttesthb.service.network.StackExchangeAPI
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
-class QuestionRepository private constructor(private val questionDao: QuestionDao) {
+class QuestionRepository private constructor(/*private val questionDao: QuestionDao*/) {
 
     private val url = "https://api.stackexchange.com/"
 
-    fun selectQuestion(position: Int) = questionDao.selectQuestion(position)
-
+    /*fun selectQuestion(position: Int) = questionDao.selectQuestion(position)
     fun getSelectedQuestion() = questionDao.getSelectedQuestion()
+    fun getQuestions() = questionDao.getQuestions()*/
 
-    suspend fun requestQuestion() {
+    suspend fun requestQuestion(): MutableList<QuestionModel> {
         val response = createApi().getQuestions()
+/*
         questionDao.updateQuestions(response.items)
+*/
+        return response.items
     }
 
-    suspend fun requestQuestionInterval(from : Int, to : Int) {
+    suspend fun requestQuestion(from : Int, to : Int): MutableList<QuestionModel> {
         val response = createApi().getQuestionsInterval(from, to)
+/*
         questionDao.updateQuestions(response.items)
+*/
+        return response.items
     }
 
-    fun createApi() : StackExchangeAPI {
+    private fun createApi() : StackExchangeAPI {
         val retrofit = Retrofit.Builder()
             .baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create())
@@ -34,14 +37,13 @@ class QuestionRepository private constructor(private val questionDao: QuestionDa
         return retrofit.create(StackExchangeAPI::class.java)
     }
 
-    fun getQuestions() = questionDao.getQuestions()
 
     companion object {
         @Volatile private var instance: QuestionRepository? = null
 
-        fun getInstance(questionDao: QuestionDao) =
+        fun getInstance(/*questionDao: QuestionDao*/) =
             instance ?: synchronized(this) {
-                instance ?: QuestionRepository(questionDao).also { instance = it }
+                instance ?: QuestionRepository(/*questionDao*/).also { instance = it }
             }
     }
 }

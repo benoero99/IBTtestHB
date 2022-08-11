@@ -1,4 +1,4 @@
-package com.example.ibttesthb.model
+package com.example.ibttesthb.service.model
 
 data class QuestionModel(
     var tags: List<String>,

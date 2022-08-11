@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ibttesthb.R
-import com.example.ibttesthb.model.QuestionModel
+import com.example.ibttesthb.databinding.QuestionBinding
+import com.example.ibttesthb.service.model.QuestionModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,23 +18,16 @@ class QuestionAdapter(private val listener: ElementClickListener) : RecyclerView
     private var data: MutableList<QuestionModel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView: View = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.question, parent, false)
-        return ViewHolder(itemView)
+        val itemBinding = QuestionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(itemBinding)
     }
 
     override fun getItemCount() = data.size
 
     // Manage textviews depending on the item's position
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
-        holder.item = item
-        holder.askerNameTV.text = "Asker: ${item.owner.display_name}"
-        holder.titleTV.text = "Title: ${item.title}"
-        holder.creationDateTV.text = "Date: ${convertEpochToDateString(item.creation_date.toLong())}"
-        holder.viewCountTV.text = "Views: ${item.view_count}"
-        holder.answerCountTV.text = "Answers: ${item.answer_count}"
+        val question = data[position]
+        holder.bind(question)
     }
 
     // Update whole recyclerview
@@ -53,23 +47,14 @@ class QuestionAdapter(private val listener: ElementClickListener) : RecyclerView
         fun onElementClicked(position: Int, holder: ViewHolder)
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        var item: QuestionModel? = null
-        var cardView: CardView
-        var askerNameTV : TextView
-        var titleTV : TextView
-        var creationDateTV : TextView
-        var viewCountTV : TextView
-        var answerCountTV : TextView
-
-        init {
+    inner class ViewHolder(private val itemBinding: QuestionBinding) : RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
+        fun bind(question: QuestionModel) {
             itemView.setOnClickListener(this)
-            cardView = itemView.findViewById(R.id.questionView)
-            askerNameTV = itemView.findViewById(R.id.askerNameTV)
-            titleTV = itemView.findViewById(R.id.titleTV)
-            creationDateTV = itemView.findViewById(R.id.creationDateTV)
-            viewCountTV = itemView.findViewById(R.id.viewCountTV)
-            answerCountTV = itemView.findViewById(R.id.answerCountTV)
+            itemBinding.askerNameTV.text = "Asker: ${question.owner.display_name}"
+            itemBinding.titleTV.text = "Title: ${question.title}"
+            itemBinding.creationDateTV.text = "Date: ${convertEpochToDateString(question.creation_date.toLong())}"
+            itemBinding.viewCountTV.text = "Views: ${question.view_count}"
+            itemBinding.answerCountTV.text = "Answers: ${question.answer_count}"
         }
 
         override fun onClick(v: View?) {

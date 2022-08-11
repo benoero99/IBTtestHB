@@ -1,8 +1,7 @@
-package com.example.ibttesthb.network
+package com.example.ibttesthb.service.network
 
-import com.example.ibttesthb.model.ListWrapper
-import com.example.ibttesthb.model.QuestionModel
-import retrofit2.Call
+import com.example.ibttesthb.service.model.ListWrapper
+import com.example.ibttesthb.service.model.QuestionModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

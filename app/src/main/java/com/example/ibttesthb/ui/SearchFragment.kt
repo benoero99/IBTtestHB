@@ -1,4 +1,4 @@
-package com.example.ibttesthb.fragments
+package com.example.ibttesthb.ui
 
 
 import android.app.DatePickerDialog
@@ -8,13 +8,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.DatePicker
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
-import com.example.ibttesthb.QuestionViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.ibttesthb.viewmodel.SharedViewModel
 import com.example.ibttesthb.R
-import com.example.ibttesthb.databinding.FragmentListBinding
 import com.example.ibttesthb.databinding.FragmentSearchBinding
 import com.example.ibttesthb.di.Injector
 import java.text.SimpleDateFormat
@@ -45,7 +43,7 @@ class SearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun initializeUI() {
         val factory = Injector.provideQuestionFactory()
-        val viewModel = ViewModelProviders.of(this, factory)[QuestionViewModel::class.java]
+        val viewModel = ViewModelProvider(requireActivity(), factory)[SharedViewModel::class.java]
 
         binding.searchNewButton.setOnClickListener {
             viewModel.requestQuestions()
@@ -81,7 +79,7 @@ class SearchFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         dpd.show()
     }
 
-    fun openListFragment() {
+    private fun openListFragment() {
         val listFrag = ListFragment()
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.container, listFrag)
